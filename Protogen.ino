@@ -3,55 +3,55 @@
 #include <Adafruit_GFX.h>
 #include "Adafruit_LEDBackpack.h"
 
-Adafruit_8x16matrix matrix0 = Adafruit_8x16matrix();
-Adafruit_8x16matrix matrix1 = Adafruit_8x16matrix();
-Adafruit_8x8matrix matrix2 = Adafruit_8x8matrix();
-Adafruit_8x8matrix matrix3 = Adafruit_8x8matrix();
-Adafruit_8x16matrix matrix4 = Adafruit_8x16matrix();
-Adafruit_8x16matrix matrix5 = Adafruit_8x16matrix();
-Adafruit_8x16matrix matrix6 = Adafruit_8x16matrix();
-Adafruit_8x16matrix matrix7 = Adafruit_8x16matrix();
+Adafruit_8x16matrix eye_r = Adafruit_8x16matrix();
+Adafruit_8x16matrix eye_l = Adafruit_8x16matrix();
+Adafruit_8x8matrix nostril_r = Adafruit_8x8matrix();
+Adafruit_8x8matrix nostril_l = Adafruit_8x8matrix();
+Adafruit_8x16matrix mouth_back_r = Adafruit_8x16matrix();
+Adafruit_8x16matrix mouth_front_r = Adafruit_8x16matrix();
+Adafruit_8x16matrix mouth_front_l = Adafruit_8x16matrix();
+Adafruit_8x16matrix mouth_back_l = Adafruit_8x16matrix();
 
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Hello world I am St1cki11");
 
-  matrix0.begin(0x70); //no solder
-  matrix1.begin(0x71);
-  matrix2.begin(0x72); 
-  matrix3.begin(0x73); 
-  matrix4.begin(0x74); //solder A2
-  matrix5.begin(0x75); //solder A2 A0
-  matrix6.begin(0x76); //solder A2 A1
-  matrix7.begin(0x77); //solder All
+  eye_r.begin(0x70); //no solder
+  eye_l.begin(0x71);
+  nostril_r.begin(0x72); 
+  nostril_l.begin(0x73); 
+  mouth_back_r.begin(0x74); //solder A2
+  mouth_front_r.begin(0x75); //solder A2 A0
+  mouth_front_l.begin(0x76); //solder A2 A1
+  mouth_back_l.begin(0x77); //solder All
 
-  matrix0.setRotation(1);
-  matrix1.setRotation(3);
-  matrix2.setRotation(1);
-  matrix3.setRotation(1);
-  matrix4.setRotation(1);
-  matrix5.setRotation(3);
-  matrix6.setRotation(1);
-  matrix7.setRotation(3);
+  eye_r.setRotation(1);
+  eye_l.setRotation(3);
+  nostril_r.setRotation(1);
+  nostril_l.setRotation(1);
+  mouth_back_r.setRotation(1);
+  mouth_front_r.setRotation(3);
+  mouth_front_l.setRotation(1);
+  mouth_back_l.setRotation(3);
 
-  matrix0.clear();
-  matrix1.clear();
-  matrix2.clear();
-  matrix3.clear();
-  matrix4.clear();
-  matrix5.clear();
-  matrix6.clear();
-  matrix7.clear();
+  eye_r.clear();
+  eye_l.clear();
+  nostril_r.clear();
+  nostril_l.clear();
+  mouth_back_r.clear();
+  mouth_front_r.clear();
+  mouth_front_l.clear();
+  mouth_back_l.clear();
 
-  matrix0.writeDisplay();
-  matrix1.writeDisplay();
-  matrix2.writeDisplay();
-  matrix3.writeDisplay();
-  matrix4.writeDisplay();
-  matrix5.writeDisplay();
-  matrix6.writeDisplay();
-  matrix7.writeDisplay();
+  eye_r.writeDisplay();
+  eye_l.writeDisplay();
+  nostril_r.writeDisplay();
+  nostril_l.writeDisplay();
+  mouth_back_r.writeDisplay();
+  mouth_front_r.writeDisplay();
+  mouth_front_l.writeDisplay();
+  mouth_back_l.writeDisplay();
   
 }
 static const uint8_t PROGMEM
@@ -343,42 +343,42 @@ mouth_22_bmp[] = {
 
 void loop() {
 //  Eyes
-  matrix0.drawBitmap(0, 0, eye_happy_11_bmp, 8, 8, LED_ON);
-  matrix0.drawBitmap(8, 0, eye_happy_12_bmp, 8, 8, LED_ON);
-  matrix0.writeDisplay();
+  eye_r.drawBitmap(0, 0, eye_happy_11_bmp, 8, 8, LED_ON);
+  eye_r.drawBitmap(8, 0, eye_happy_12_bmp, 8, 8, LED_ON);
+  eye_r.writeDisplay();
 
-  matrix1.drawBitmap(0, 0, eye_happy_21_bmp, 8, 8, LED_ON);
-  matrix1.drawBitmap(8, 0, eye_happy_22_bmp, 8, 8, LED_ON);
-  matrix1.writeDisplay();
+  eye_l.drawBitmap(0, 0, eye_happy_21_bmp, 8, 8, LED_ON);
+  eye_l.drawBitmap(8, 0, eye_happy_22_bmp, 8, 8, LED_ON);
+  eye_l.writeDisplay();
     
   //Nostril 
-  matrix2.clear();
-  matrix2.drawBitmap(0, 0, nostril_2_bmp, 8, 8, LED_ON);
-  matrix2.writeDisplay();
+  nostril_r.clear();
+  nostril_r.drawBitmap(0, 0, nostril_2_bmp, 8, 8, LED_ON);
+  nostril_r.writeDisplay();
 
-  matrix3.clear();
-  matrix3.drawBitmap(0, 0, nostril_1_bmp, 8, 8, LED_ON);
-  matrix3.writeDisplay();
+  nostril_l.clear();
+  nostril_l.drawBitmap(0, 0, nostril_1_bmp, 8, 8, LED_ON);
+  nostril_l.writeDisplay();
   
   //Mouth
-  matrix4.clear();
-  matrix4.drawBitmap(0,0,mouth_11_bmp,8,8, LED_ON);
-  matrix4.drawBitmap(8,0,mouth_12_bmp,8,8, LED_ON);
-  matrix4.writeDisplay();
+  mouth_back_r.clear();
+  mouth_back_r.drawBitmap(0,0,mouth_11_bmp,8,8, LED_ON);
+  mouth_back_r.drawBitmap(8,0,mouth_12_bmp,8,8, LED_ON);
+  mouth_back_r.writeDisplay();
 
-  matrix5.clear();
-  matrix5.drawBitmap(0,0,mouth_13_bmp,8,8, LED_ON);
-  matrix5.drawBitmap(8,0,mouth_14_bmp,8,8, LED_ON);
-  matrix5.writeDisplay();
+  mouth_front_r.clear();
+  mouth_front_r.drawBitmap(0,0,mouth_13_bmp,8,8, LED_ON);
+  mouth_front_r.drawBitmap(8,0,mouth_14_bmp,8,8, LED_ON);
+  mouth_front_r.writeDisplay();
 
-  matrix6.clear();
-  matrix6.drawBitmap(0,0,mouth_21_bmp,8,8, LED_ON);
-  matrix6.drawBitmap(8,0,mouth_22_bmp,8,8, LED_ON);
-  matrix6.writeDisplay();
+  mouth_front_l.clear();
+  mouth_front_l.drawBitmap(0,0,mouth_21_bmp,8,8, LED_ON);
+  mouth_front_l.drawBitmap(8,0,mouth_22_bmp,8,8, LED_ON);
+  mouth_front_l.writeDisplay();
 
-  matrix7.clear();
-  matrix7.drawBitmap(0,0,mouth_23_bmp,8,8, LED_ON);
-  matrix7.drawBitmap(8,0,mouth_24_bmp,8,8, LED_ON);
-  matrix7.writeDisplay();
+  mouth_back_l.clear();
+  mouth_back_l.drawBitmap(0,0,mouth_23_bmp,8,8, LED_ON);
+  mouth_back_l.drawBitmap(8,0,mouth_24_bmp,8,8, LED_ON);
+  mouth_back_l.writeDisplay();
 
 }
