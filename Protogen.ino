@@ -77,7 +77,7 @@ void startup() {
 //  nostril_l.writeDisplay();
 
   // fade everything
-  for(uint i = 0; i < 3; i++) {
+  for(uint8_t i = 0; i < 3; i++) {
       nostril_r.fillScreen(LED_ON);
       nostril_l.fillScreen(LED_ON);
 
