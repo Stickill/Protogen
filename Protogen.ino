@@ -14,52 +14,52 @@ Adafruit_8x16matrix mouth_back_l = Adafruit_8x16matrix();
 
 // animation delay between frames in ms
 int an_delay = 20;
-int fade_delay = 30;
+int fade_delay = 1;
 
 void startup() {
-//  for(uint16_t i = 0; i < 16; i++) {
-//    // scan eyes
-//    eye_r.drawFastVLine(i, 0, 8, LED_ON);
-//    eye_l.drawFastVLine(16 - i, 0, 8, LED_ON);
-//    
-//    eye_r.writeDisplay();
-//    eye_l.writeDisplay();
-//    
-//    eye_r.clear();
-//    eye_l.clear();
-//
-//    // scan back of mouth at the same time
-//    mouth_back_r.drawFastVLine(i, 0, 8, LED_ON);
-//    mouth_back_l.drawFastVLine(16 - i, 0, 8, LED_ON);
-//    
-//    mouth_back_r.writeDisplay();
-//    mouth_back_l.writeDisplay();
-//    
-//    mouth_back_r.clear();
-//    mouth_back_l.clear();
-//    
-//    delay(an_delay);
-//  }
-//  // clear finished part of animation
-//  eye_r.writeDisplay();
-//  eye_l.writeDisplay();
-//  mouth_back_r.writeDisplay();
-//  mouth_back_l.writeDisplay();
-//
-//  // scan front part of mouth
-//  for(uint16_t i = 0; i < 16; i++) {
-//    mouth_front_r.drawFastVLine(i, 0, 8, LED_ON);
-//    mouth_front_l.drawFastVLine(16 - i, 0, 8, LED_ON);
-//    
-//    mouth_front_r.writeDisplay();
-//    mouth_front_l.writeDisplay();
-//    
-//    mouth_front_r.clear();
-//    mouth_front_l.clear();
-//    delay(an_delay);
-//  }
-//  mouth_front_r.writeDisplay();
-//  mouth_front_l.writeDisplay();
+  for(uint16_t i = 0; i < 16; i++) {
+    // scan eyes
+    eye_r.drawFastVLine(i, 0, 8, LED_ON);
+    eye_l.drawFastVLine(16 - i, 0, 8, LED_ON);
+    
+    eye_r.writeDisplay();
+    eye_l.writeDisplay();
+    
+    eye_r.clear();
+    eye_l.clear();
+
+    // scan back of mouth at the same time
+    mouth_back_r.drawFastVLine(i, 0, 8, LED_ON);
+    mouth_back_l.drawFastVLine(16 - i, 0, 8, LED_ON);
+    
+    mouth_back_r.writeDisplay();
+    mouth_back_l.writeDisplay();
+    
+    mouth_back_r.clear();
+    mouth_back_l.clear();
+    
+    delay(an_delay);
+  }
+  // clear finished part of animation
+  eye_r.writeDisplay();
+  eye_l.writeDisplay();
+  mouth_back_r.writeDisplay();
+  mouth_back_l.writeDisplay();
+
+  // scan front part of mouth
+  for(uint16_t i = 0; i < 16; i++) {
+    mouth_front_r.drawFastVLine(i, 0, 8, LED_ON);
+    mouth_front_l.drawFastVLine(16 - i, 0, 8, LED_ON);
+    
+    mouth_front_r.writeDisplay();
+    mouth_front_l.writeDisplay();
+    
+    mouth_front_r.clear();
+    mouth_front_l.clear();
+    delay(an_delay);
+  }
+  mouth_front_r.writeDisplay();
+  mouth_front_l.writeDisplay();
 
 //  // blink nose
 //  for(uint i = 0; i < 10; i++) {
@@ -494,6 +494,39 @@ void fade_in(){
 
 }
 
+void angrymouth(){
+  uint16_t points[10] = {0};
+
+  for(uint8_t i = 0; i < 10; i++){
+    points[i] = random(8);
+  }
+
+  mouth_back_l.clear();
+  mouth_front_l.clear();
+
+  mouth_back_l.drawLine(0, points[0], 8, points[1], LED_ON);
+  mouth_back_l.drawLine(8, points[1], 15, 4, LED_ON);
+  mouth_front_l.drawLine(0, 4, 8, points[2], LED_ON); 
+  mouth_front_l.drawLine(8, points[2], 15, points[0], LED_ON);
+
+  mouth_back_l.writeDisplay();
+  mouth_front_l.writeDisplay();
+
+  mouth_back_r.clear();
+  mouth_front_r.clear();
+
+  mouth_back_r.drawLine(0, 4, 8, points[4], LED_ON);
+  mouth_back_r.drawLine(8, points[4], 15, points[3], LED_ON);
+  mouth_front_r.drawLine(0, points[3], 8, points[5], LED_ON); 
+  mouth_front_r.drawLine(8, points[5], 15, 4, LED_ON);
+
+  mouth_back_r.writeDisplay();
+  mouth_front_r.writeDisplay();
+
+  delay(30);
+  
+}
+
 void loop() {
 //  Eyes
   eye_r.clear();
@@ -505,6 +538,17 @@ void loop() {
   eye_l.drawBitmap(0, 0, eye_happy_21_bmp, 8, 8, LED_ON);
   eye_l.drawBitmap(8, 0, eye_happy_22_bmp, 8, 8, LED_ON);
   eye_l.writeDisplay();
+
+//  eye_r.clear();
+//  eye_r.drawBitmap(0, 0, eye_uwu_1_bmp, 8, 8, LED_ON);
+//  eye_r.drawBitmap(8, 0, eye_uwu_2_bmp, 8, 8, LED_ON);
+//  eye_r.writeDisplay();
+//
+//  eye_l.clear();
+//  eye_l.drawBitmap(0, 0, eye_uwu_1_bmp, 8, 8, LED_ON);
+//  eye_l.drawBitmap(8, 0, eye_uwu_2_bmp, 8, 8, LED_ON);
+//  eye_l.writeDisplay();
+
     
   //Nostril 
   nostril_r.clear();
@@ -516,27 +560,30 @@ void loop() {
   nostril_l.writeDisplay();
   
   //Mouth
-  mouth_back_r.clear();
-  mouth_back_r.drawBitmap(0,0,mouth_11_bmp,8,8, LED_ON);
-  mouth_back_r.drawBitmap(8,0,mouth_12_bmp,8,8, LED_ON);
-  mouth_back_r.writeDisplay();
-
-  mouth_front_r.clear();
-  mouth_front_r.drawBitmap(0,0,mouth_13_bmp,8,8, LED_ON);
-  mouth_front_r.drawBitmap(8,0,mouth_14_bmp,8,8, LED_ON);
-  mouth_front_r.writeDisplay();
-
-  mouth_front_l.clear();
-  mouth_front_l.drawBitmap(0,0,mouth_21_bmp,8,8, LED_ON);
-  mouth_front_l.drawBitmap(8,0,mouth_22_bmp,8,8, LED_ON);
-  mouth_front_l.writeDisplay();
-
-  mouth_back_l.clear();
-  mouth_back_l.drawBitmap(0,0,mouth_23_bmp,8,8, LED_ON);
-  mouth_back_l.drawBitmap(8,0,mouth_24_bmp,8,8, LED_ON);
-  mouth_back_l.writeDisplay();
+//  mouth_back_r.clear();
+//  mouth_back_r.drawBitmap(0,0,mouth_11_bmp,8,8, LED_ON);
+//  mouth_back_r.drawBitmap(8,0,mouth_12_bmp,8,8, LED_ON);
+//  mouth_back_r.writeDisplay();
+//
+//  mouth_front_r.clear();
+//  mouth_front_r.drawBitmap(0,0,mouth_13_bmp,8,8, LED_ON);
+//  mouth_front_r.drawBitmap(8,0,mouth_14_bmp,8,8, LED_ON);
+//  mouth_front_r.writeDisplay();
+//
+//  mouth_front_l.clear();
+//  mouth_front_l.drawBitmap(0,0,mouth_21_bmp,8,8, LED_ON);
+//  mouth_front_l.drawBitmap(8,0,mouth_22_bmp,8,8, LED_ON);
+//  mouth_front_l.writeDisplay();
+//
+//  mouth_back_l.clear();
+//  mouth_back_l.drawBitmap(0,0,mouth_23_bmp,8,8, LED_ON);
+//  mouth_back_l.drawBitmap(8,0,mouth_24_bmp,8,8, LED_ON);
+//  mouth_back_l.writeDisplay();
 
   if(!startup_done) {
     fade_in();
+  }
+  else {
+    angrymouth();
   }
 }
