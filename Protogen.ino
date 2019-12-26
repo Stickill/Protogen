@@ -5,6 +5,8 @@
 #include <Adafruit_GFX.h>
 #include "Adafruit_LEDBackpack.h"
 
+#include "protolink.h"
+#include "connection.h"
 
 Adafruit_8x16matrix eye_r = Adafruit_8x16matrix();
 Adafruit_8x16matrix eye_l = Adafruit_8x16matrix();
@@ -16,11 +18,13 @@ Adafruit_8x16matrix mouth_front_l = Adafruit_8x16matrix();
 Adafruit_8x16matrix mouth_back_l = Adafruit_8x16matrix();
 
 WiFiServer server(8080);
-const char* ssid = "****";
-const char* pass = "****";
+extern const char* ssid;
+extern const char* pass;
 
 #define fbsize 112
 static uint8_t framebuffer[fbsize];
+
+ProtoLink protolink(framebuffer, fbsize);
 
 void clearall() {
   eye_r.clear();
@@ -128,20 +132,16 @@ void loop() {
   
   WiFiClient client = server.available();
 
-  while (client.connected()) {
-
-    int available = client.available();
+  if (client.connected()) {
     
-    if (available >= fbsize) {
-
-      client.readBytes(framebuffer, fbsize);
-      client.write((uint8_t) available);
-      Serial.println("Rcv succes");
+    ProtoLink::State s = protolink.init(&client);
+    
+    while(client.connected() && s != ProtoLink::State::ERR) {
+      s = protolink.run();
       displayfb();
-    } 
-
-    yield();
+      client.write(0x00);
+      yield();
+    }
   }
-
   client.stop();
 }
