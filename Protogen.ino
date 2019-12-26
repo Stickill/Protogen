@@ -129,19 +129,25 @@ void setup()
 
 void loop() {
   displayfb();
-  
+
+  // Need this or wifi wont connect?!
+  delay(50);
+
   WiFiClient client = server.available();
 
-  if (client.connected()) {
-    
+  while (client.connected()) {
+    Serial.println("Connected");
     ProtoLink::State s = protolink.init(&client);
     
     while(client.connected() && s != ProtoLink::State::ERR) {
       s = protolink.run();
+      Serial.print("Protolink state: ");
+      Serial.println(protolink.stateString());
       displayfb();
       client.write(0x00);
       yield();
     }
+    client.stop();
   }
-  client.stop();
+  
 }

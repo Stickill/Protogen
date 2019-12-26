@@ -31,6 +31,8 @@ class ProtoLink {
     State run();
 
     State init(Stream*);
+
+    String stateString();
     
 };
 

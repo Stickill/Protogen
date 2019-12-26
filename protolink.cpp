@@ -1,10 +1,12 @@
 #include "protolink.h"
 
+#include <Arduino.h>
+
 #define LEN_N_BYTES 2 // The number of bytes describing the lenght of the rest of the message
 
-ProtoLink::ProtoLink(uint8_t* fb, uint fb_size) { 
-  fb = fb;
-  fb_size = fb_size;
+ProtoLink::ProtoLink(uint8_t* fbp, uint fbs) { 
+  fb = fbp;
+  fb_size = fbs;
 }
 
 // Connects a stream to protolink instance
@@ -26,7 +28,7 @@ ProtoLink::State ProtoLink::run() {
 // Receives and copies new framebuffer contents to the framebuffer
 void ProtoLink::run_RECV_FB() {
 
-  // First 4 bytes are body length in bytes
+  // First LEN_N_BYTES bytes are body length in bytes
   uint len = 0;
   while (!len) {
     if (stream->available() >= LEN_N_BYTES) {
@@ -34,16 +36,22 @@ void ProtoLink::run_RECV_FB() {
       uint8_t lenbuf[LEN_N_BYTES];
       stream->readBytes(lenbuf, LEN_N_BYTES);
       
-      for (int i = 0; i < LEN_N_BYTES * 8; i += 8) {
-        len |= (lenbuf[i / 8] << i);
+      for (int i = 0; i < LEN_N_BYTES; i++) {
+        len |= (lenbuf[LEN_N_BYTES - 1 - i] << i * 8);
       }
     }
     yield();
   }
+
+  Serial.print("Len: ");
+  Serial.println(len);
   
   // Copy the rest of the message into the framebuffer
   while (true) {
-    if (stream->available() >= fb_size) {
+    
+    int available = stream->available();
+    
+    if (stream->available() >= len) {
       
       // No buffer overflow pls
       int copy_len = min(fb_size, len);
@@ -55,6 +63,7 @@ void ProtoLink::run_RECV_FB() {
       return;
     }
     yield();
+    
   }
 }
 
@@ -73,5 +82,15 @@ void ProtoLink::run_INIT() {
       return;
     }
     yield();
+  }
+}
+
+#define to_str(p) case(p): return #p;
+String ProtoLink::stateString() {
+  switch(state) {
+    to_str(NO_CONN);
+    to_str(INIT);
+    to_str(RECV_FB);
+    to_str(ERR);
   }
 }
